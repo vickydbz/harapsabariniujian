@@ -55,33 +55,35 @@
       let count = 56;
       let quest1 = true;
       let quest2 = false;
-      const interval = setInterval(() => {
-        count--;
-        timer.innerHTML = count;
-        progress.style.width = (count / 56) * 100 + "%";
-
-        if (count === 15) {
-          quest1 = false;
-        }
-
-        if (count === 38) {
-          quest2 = true;
-        }
-
-        if (count === 0) {
-          clearInterval(interval);
-        }
-
-        if (quest1) {
-          quest.innerHTML = "Siap-siap Quests Start";
-          quest.style.visibility = "visible";
-        } else if (quest2) {
-          quest.innerHTML = "DN DN!!";
-          quest.style.visibility = "visible";
-        } else {
-          quest.style.visibility = "hidden";
-        }
-      }, 1000);
+      while (true) {
+        setTimeout(() => {
+          count--;
+          timer.innerHTML = count;
+          progress.style.width = (count / 56) * 100 + "%";
+    
+          if (count === 15) {
+            quest1 = false;
+          }
+    
+          if (count === 38) {
+            quest2 = true;
+          }
+    
+          if (count === 0) {
+            count = 56;
+          }
+    
+          if (quest1) {
+            quest.innerHTML = "Quest 1 Start";
+            quest.style.visibility = "visible";
+          } else if (quest2) {
+            quest.innerHTML = "DN DN!!";
+            quest.style.visibility = "visible";
+          } else {
+            quest.style.visibility = "hidden";
+          }
+        }, 1000);
+      }
     </script>
   </body>
 </html>
