@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Calendar</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+</head>
+<body>
+	<div class="w3-container w3-center">
+		<h1>Calendar</h1>
+		<div class="w3-row">
+			<div class="w3-third">
+				<button class="w3-button w3-round w3-green" onclick="prevYear()">&#10094;</button>
+			</div>
+			<div class="w3-third">
+				<h2 id="year"></h2>
+			</div>
+			<div class="w3-third">
+				<button class="w3-button w3-round w3-green" onclick="nextYear()">&#10095;</button>
+			</div>
+		</div>
+		<div class="w3-row">
+			<div class="w3-third">
+				<button class="w3-button w3-round w3-green" onclick="prevMonth()">&#10094;</button>
+			</div>
+			<div class="w3-third">
+				<h3 id="month"></h3>
+			</div>
+			<div class="w3-third">
+				<button class="w3-button w3-round w3-green" onclick="nextMonth()">&#10095;</button>
+			</div>
+		</div>
+		<div class="w3-row">
+			<div class="w3-third">
+				<h4>Sun</h4>
+			</div>
+			<div class="w3-third">
+				<h4>Mon</h4>
+			</div>
+			<div class="w3-third">
+				<h4>Tue</h4>
+			</div>
+			<div class="w3-third">
+				<h4>Wed</h4>
+			</div>
+			<div class="w3-third">
+				<h4>Thu</h4>
+			</div>
+			<div class="w3-third">
+				<h4>Fri</h4>
+			</div>
+			<div class="w3-third">
+				<h4>Sat</h4>
+			</div>
+		</div>
+		<div class="w3-row" id="dates">
+		</div>
+	</div>
+	<script>
+		// Initialize date object
+		let date = new Date();
+		let currentYear = date.getFullYear();
+		let currentMonth = date.getMonth();
+		let currentDate = date.getDate();
+
+		// Set initial values for year and month
+		document.getElementById("year").innerHTML = currentYear;
+		document.getElementById("month").innerHTML = getMonthName(currentMonth);
+
+		// Render calendar
+		renderCalendar(currentYear, currentMonth);
+
+		// Functions for changing year and month
+		function prevYear() {
+			currentYear--;
+			document.getElementById("year").innerHTML = currentYear;
+			renderCalendar(currentYear, currentMonth);
+		}
+
+		function nextYear() {
+			currentYear++;
+			document.getElementById("year").innerHTML = currentYear;
+			renderCalendar(currentYear, currentMonth);
+		}
+
+		function prevMonth() {
+			if (currentMonth === 0) {
+				currentMonth = 11;
+				currentYear--;
+			} else {
+				currentMonth--;
+			}
+			document.getElementById("month").innerHTML = getMonthName(currentMonth(currentMonth);
+			renderCalendar(currentYear, currentMonth);
+			}
+			function nextMonth() {
+		if (currentMonth === 11) {
+			currentMonth = 0;
+			currentYear++;
+		} else {
+			currentMonth++;
+		}
+		document.getElementById("month").innerHTML = getMonthName(currentMonth);
+		renderCalendar(currentYear, currentMonth);
+	}
+
+	// Function for rendering calendar
+	function renderCalendar(year, month) {
+		let firstDay = new Date(year, month, 1).getDay();
+		let lastDate = new Date(year, month + 1, 0).getDate();
+		let currentRow = document.createElement("div");
+		currentRow.classList.add("w3-row");
+		let currentCell = null;
+
+		// Fill in blank cells for first row
+		for (let i = 0; i < firstDay; i++) {
+			currentCell = document.createElement("div");
+			currentCell.classList.add("w3-third");
+			currentRow.appendChild(currentCell);
+		}
+
+		// Fill in date cells
+		for (let i = 1; i <= lastDate; i++) {
+			if (currentCell === null || currentCell.childNodes.length === 2) {
+				currentCell = document.createElement("div");
+				currentCell.classList.add("w3-third");
+				currentRow.appendChild(currentCell);
+			}
+
+			let currentDate = new Date(year, month, i);
+			let dateNumber = document.createElement("span");
+			dateNumber.innerHTML = i;
+
+			if (currentDate.getDay() === 0 || currentDate.getDay() === 6) {
+				dateNumber.classList.add("w3-text-red");
+			} else {
+				dateNumber.classList.add("w3-text-green");
+			}
+
+			currentCell.appendChild(dateNumber);
+		}
+
+		// Fill in blank cells for last row
+		while (currentRow.childNodes.length < 7) {
+			currentCell = document.createElement("div");
+			currentCell.classList.add("w3-third");
+			currentRow.appendChild(currentCell);
+		}
+
+		// Replace existing date cells with new ones
+		let dates = document.getElementById("dates");
+		while (dates.firstChild) {
+			dates.removeChild(dates.firstChild);
+		}
+		dates.appendChild(currentRow);
+	}
+
+	// Helper function for getting month name
+	function getMonthName(month) {
+		const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+		return monthNames[month];
+	}
+</script>
+</body>
+</html>
